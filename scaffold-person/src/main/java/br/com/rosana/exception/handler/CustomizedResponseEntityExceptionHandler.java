@@ -11,7 +11,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import br.com.rosana.exception.ExceptionResponse;
-import br.com.rosana.exception.UnsuportedMathOperationException;
+
 
 //ver https://mkyong.com/spring-boot/spring-rest-error-handling-example/
 
@@ -37,15 +37,5 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 	}
 	
 	
-	@ExceptionHandler(UnsuportedMathOperationException.class)
-	
-	public final ResponseEntity<ExceptionResponse> handleBaaadRequestExceptions(Exception ex, WebRequest request) {
-		ExceptionResponse resposta = 
-				new ExceptionResponse(
-						new Date(),
-						ex.getMessage(),
-						request.getDescription(false));
-		return new ResponseEntity<>(resposta, HttpStatus.BAD_REQUEST);
-	}
 
 }

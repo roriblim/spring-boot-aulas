@@ -3,17 +3,37 @@ package br.com.rosana.model;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "person") //essa anotation pemite indicar a qual tabela no bando essa entidade corresponde
 public class Person implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+
+	//vou identificar essa variável id como o Id
+	@Id 
+	@GeneratedValue(strategy = GenerationType.IDENTITY) //SIGNIFICA que o próprio hibernate vai gerar os valores de ID para mim.
 	private long id;
+	
+	@Column(name = "first_name", nullable = false, length = 50) //para identificar a qual coluna da tabela no banco de dados cada atributo se refere
 	private String firstName;
+	
+	@Column(name = "lastt_name", nullable = false, length = 50) 
 	private String lastName;
+	
+	@Column(nullable = false, length=100) 
 	private String address;
+	
+	@Column(nullable = false, length=6) 
 	private String gender;
+	
+	//obs.: se a coluna já não existir no banco, ele vai criar, então pode ser uma boa prática colocar um length
 	
 	
 	public Person() {

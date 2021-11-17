@@ -3,11 +3,14 @@ package br.com.rosana;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.rosana.model.Person;
@@ -20,41 +23,40 @@ public class PersonController {
 		@Autowired
 		private PersonServices services;
 		
-		@RequestMapping( method = RequestMethod.GET, 
-						produces = MediaType.APPLICATION_JSON_VALUE)
+		 
+		//produces = MediaType.APPLICATION_JSON_VALUE e consumes = MediaType.APPLICATION_JSON_VALUE
+		//são feitos por default no requestMapping, entao posso tirá-los.
+		
+		//posso substituir  @RequestMapping( method = RequestMethod.GET) por @GetMapping
+		//posso substituir @RequestMapping(value = "/{id}", method = RequestMethod.GET) por @GetMapping("/{id}")
+		//POSSO SUBSTITUIR @RequestMapping(value = "/{id}", method = RequestMethod.DELETE) POR @DeleteMapping("/{id}")		
+		//posso substituir @RequestMapping(method = RequestMethod.POST)  por @PostMapping
+		//posso substituir @RequestMapping(method = RequestMethod.PUT) por @PutMapping		
+		
+		@GetMapping
 		public List<Person> mostraTodos() {
 			return services.findAll();
 		}
 		
-		@RequestMapping(value = "/{id}", 
-						method = RequestMethod.GET, 
-						produces = MediaType.APPLICATION_JSON_VALUE)
-		public Person mostraUm(@PathVariable("id")String id) {
+		@GetMapping("/{id}")
+		public Person mostraUm(@PathVariable("id")Long id) {
 			return services.findById(id);
 		}
 		
-		//NOTA: O POST NAO PODE SER USADO DIRETAMENTE NO BROWSER SEM OUTRA TECNOLOGIA.
-		//PARA TESTÁ-LO, USAMOS O POSTMAN
-		@RequestMapping(method = RequestMethod.POST, 
-						consumes = MediaType.APPLICATION_JSON_VALUE,
-						produces = MediaType.APPLICATION_JSON_VALUE) //vai nao apenas produzir, mas tbm consumir json
+		@PostMapping
 		public Person poeNoBanco(@RequestBody Person person) {
 			return services.create(person);
 		}
 		
-		//NOTA: O PUT NAO PODE SER USADO DIRETAMENTE NO BROWSER SEM OUTRA TECNOLOGIA.
-		//PARA TESTÁ-LO, USAMOS O POSTMAN
-		@RequestMapping(method = RequestMethod.PUT, 
-						consumes = MediaType.APPLICATION_JSON_VALUE,
-						produces = MediaType.APPLICATION_JSON_VALUE) //vai nao apenas produzir, mas tbm consumir json
+		@PutMapping	
 		public Person atualizaNoBanco(@RequestBody Person person) {
 			return services.update(person);
 		}
 		
-		@RequestMapping(value = "/{id}", 
-				method = RequestMethod.DELETE)
-		public void deletaUm(@PathVariable("id")String id) {
+		@DeleteMapping("/{id}")
+		public ResponseEntity<?> deletaUm(@PathVariable("id") Long id) {
 			services.delete(id);
+			return ResponseEntity.ok().build();
 }
 		
 }
