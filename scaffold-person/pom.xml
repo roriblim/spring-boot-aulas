@@ -8,7 +8,7 @@
   </parent>
   
   <groupId>br.com.rosana</groupId>
-  <artifactId>rest-with-springboot-udemy</artifactId>
+  <artifactId>scaffold-person</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
   

@@ -36,9 +36,8 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 		return new ResponseEntity<>(resposta, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	
+	//após ter sido lancada essa excecao, vem para o @exceptionhandler correspondente! Ele vai fazer essa ligacao
 	@ExceptionHandler(UnsuportedMathOperationException.class)
-	
 	public final ResponseEntity<ExceptionResponse> handleBaaadRequestExceptions(Exception ex, WebRequest request) {
 		ExceptionResponse resposta = 
 				new ExceptionResponse(
