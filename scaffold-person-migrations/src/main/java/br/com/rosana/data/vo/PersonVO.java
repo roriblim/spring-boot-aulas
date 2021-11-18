@@ -1,45 +1,25 @@
-package br.com.rosana.model;
+package br.com.rosana.data.vo;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "person") //essa anotation pemite indicar a qual tabela no bando essa entidade corresponde
-public class Person implements Serializable{
+public class PersonVO implements Serializable{
 
+	//essa vai ser uma classe para transferência de dados
+	
 	private static final long serialVersionUID = 1L;
 
-	//vou identificar essa variável id como o Id
-	@Id 
-	@GeneratedValue(strategy = GenerationType.IDENTITY) //SIGNIFICA que o próprio hibernate vai gerar os valores de ID para mim.
 	private long id;
-	
-	@Column(name = "first_name", nullable = false, length = 50) //para identificar a qual coluna da tabela no banco de dados cada atributo se refere
 	private String firstName;
-	
-	@Column(name = "last_name", nullable = false, length = 50) 
 	private String lastName;
-	
-	@Column(nullable = false, length=100) 
 	private String address;
-	
-	@Column(nullable = false, length=6) 
 	private String gender;
 	
-	//obs.: se a coluna já não existir no banco, ele vai criar, então pode ser uma boa prática colocar um length
-	
-	
-	public Person() {
-		
+	public PersonVO() {
 	}
-
 
 	public long getId() {
 		return id;
@@ -105,7 +85,7 @@ public class Person implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Person other = (Person) obj;
+		PersonVO other = (PersonVO) obj;
 		return Objects.equals(address, other.address) && Objects.equals(firstName, other.firstName)
 				&& Objects.equals(gender, other.gender) && id == other.id && Objects.equals(lastName, other.lastName);
 	}

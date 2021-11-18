@@ -1,4 +1,4 @@
-package br.com.rosana.model;
+package br.com.rosana.data.model;
 
 import java.io.Serializable;
 import java.util.Objects;
