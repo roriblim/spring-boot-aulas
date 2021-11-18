@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.rosana.converter.DozerConverter;
 import br.com.rosana.data.model.Person;
+import br.com.rosana.data.vo.PersonVO;
 import br.com.rosana.exception.ResourceNotFoundException;
 import br.com.rosana.repository.PersonRepository;
 
@@ -17,23 +19,24 @@ import br.com.rosana.repository.PersonRepository;
 		@Autowired
 		PersonRepository repository;
 		
-		public Person create(Person person) {
-			return repository.save(person);
-			/*lá no controller é chamado o create person, e aqui então é feita a persistência do dado na base de dados,
-			 * e depois o resultado é retornado de volta ao controller, que retorna ao json*/
-		}
+		public PersonVO create(PersonVO person) {
+			//note que eu posso declarar entity como Person e vo como PersonVO, m
+			//as posso tbm usar o var, e o Java vai ajustar o tipo
+			var entity = DozerConverter.parseObject(person, Person.class); //vai mudar person de PersonVO para a classe de Person e gravar em entity
+			var vo = DozerConverter.parseObject(repository.save(entity), PersonVO.class); //salvo no repositório e converto novamente para retornar ao usuário como VO
+			return vo;
+			}
 		
-		public Person update(Person person) {
+		public PersonVO update(PersonVO person) {
 			
-			Person entity = repository.findById(person.getId())
+			var entity = repository.findById(person.getId())
 			         .orElseThrow(()-> new ResourceNotFoundException("No records found for this ID"));	
 			entity.setFirstName(person.getFirstName());
 			entity.setLastName(person.getLastName());
 			entity.setAddress(person.getAddress());
-			entity.setGender(person.getGender());
-			return repository.save(entity);
-			/*lá no controller é chamado o update person, e aqui então é feita a persistência do dado na base de dados,
-			 * e depois o resultado é retornado de volta ao controller, que retorna ao json*/
+			entity.setGender(person.getGender());			
+			var vo = DozerConverter.parseObject(repository.save(entity), PersonVO.class);
+			return vo;
 		}
 		
 		public void delete (Long id){
@@ -43,14 +46,15 @@ import br.com.rosana.repository.PersonRepository;
 			//recbe o id, vai até a base de dados, se existir o id, deleta, se não, retorna uma exceção
 		}
 		
-		public Person findById(Long id) {
-		return repository.findById(id)
+		public PersonVO findById(Long id) {
+		var entity = repository.findById(id)
 				         .orElseThrow(()-> new ResourceNotFoundException("No records found for this ID"));
+		return DozerConverter.parseObject(entity, PersonVO.class);
 			
 		}
 		
-		public List<Person> findAll() {
-			return repository.findAll();
+		public List<PersonVO> findAll() {
+			return DozerConverter.parseListObjects(repository.findAll(), PersonVO.class);
 		}
 		
 

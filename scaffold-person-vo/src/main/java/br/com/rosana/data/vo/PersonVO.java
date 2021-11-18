@@ -6,8 +6,6 @@ import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "person") //essa anotation pemite indicar a qual tabela no bando essa entidade corresponde
 public class PersonVO implements Serializable{
 
 	//essa vai ser uma classe para transferência de dados

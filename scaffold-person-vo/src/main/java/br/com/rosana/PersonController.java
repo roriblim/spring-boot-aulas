@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.rosana.data.model.Person;
+import br.com.rosana.data.vo.PersonVO;
 import br.com.rosana.services.PersonServices;
 
 @RestController
@@ -34,22 +34,22 @@ public class PersonController {
 		//posso substituir @RequestMapping(method = RequestMethod.PUT) por @PutMapping		
 		
 		@GetMapping
-		public List<Person> mostraTodos() {
+		public List<PersonVO> mostraTodos() {
 			return services.findAll();
 		}
 		
 		@GetMapping("/{id}")
-		public Person mostraUm(@PathVariable("id")Long id) {
+		public PersonVO mostraUm(@PathVariable("id")Long id) {
 			return services.findById(id);
 		}
 		
 		@PostMapping
-		public Person poeNoBanco(@RequestBody Person person) {
+		public PersonVO poeNoBanco(@RequestBody PersonVO person) {
 			return services.create(person);
 		}
 		
 		@PutMapping	
-		public Person atualizaNoBanco(@RequestBody Person person) {
+		public PersonVO atualizaNoBanco(@RequestBody PersonVO person) {
 			return services.update(person);
 		}
 		
