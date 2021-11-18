@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.rosana.converter.DozerConverter;
+import br.com.rosana.converter.custom.PersonConverter;
 import br.com.rosana.data.model.Person;
 import br.com.rosana.data.vo.PersonVO;
+import br.com.rosana.data.vo.v2.PersonVOv2;
 import br.com.rosana.exception.ResourceNotFoundException;
 import br.com.rosana.repository.PersonRepository;
 
@@ -19,11 +21,21 @@ import br.com.rosana.repository.PersonRepository;
 		@Autowired
 		PersonRepository repository;
 		
+		@Autowired
+		PersonConverter converter;
+		
 		public PersonVO create(PersonVO person) {
 			//note que eu posso declarar entity como Person e vo como PersonVO, m
 			//as posso tbm usar o var, e o Java vai ajustar o tipo
 			var entity = DozerConverter.parseObject(person, Person.class); //vai mudar person de PersonVO para a classe de Person e gravar em entity
 			var vo = DozerConverter.parseObject(repository.save(entity), PersonVO.class); //salvo no repositório e converto novamente para retornar ao usuário como VO
+			return vo;
+			}
+		
+		public PersonVOv2 createV2(PersonVOv2 person) {
+		
+			var entity = converter.convertVOv2ToEntity(person); 
+			var vo = converter.convertEntityToVOv2(repository.save(entity)); 
 			return vo;
 			}
 		

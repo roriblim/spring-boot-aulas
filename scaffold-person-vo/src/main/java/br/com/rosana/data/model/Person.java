@@ -24,7 +24,7 @@ public class Person implements Serializable{
 	@Column(name = "first_name", nullable = false, length = 50) //para identificar a qual coluna da tabela no banco de dados cada atributo se refere
 	private String firstName;
 	
-	@Column(name = "lastt_name", nullable = false, length = 50) 
+	@Column(name = "last_name", nullable = false, length = 50) 
 	private String lastName;
 	
 	@Column(nullable = false, length=100) 
