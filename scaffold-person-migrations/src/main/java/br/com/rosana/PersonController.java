@@ -17,22 +17,13 @@ import br.com.rosana.data.vo.PersonVO;
 import br.com.rosana.services.PersonServices;
 
 @RestController
-@RequestMapping("/person")
+@RequestMapping("/api/person/v1")
 public class PersonController {
 
 		@Autowired
 		private PersonServices services;
 		
-		 
-		//produces = MediaType.APPLICATION_JSON_VALUE e consumes = MediaType.APPLICATION_JSON_VALUE
-		//são feitos por default no requestMapping, entao posso tirá-los.
-		
-		//posso substituir  @RequestMapping( method = RequestMethod.GET) por @GetMapping
-		//posso substituir @RequestMapping(value = "/{id}", method = RequestMethod.GET) por @GetMapping("/{id}")
-		//POSSO SUBSTITUIR @RequestMapping(value = "/{id}", method = RequestMethod.DELETE) POR @DeleteMapping("/{id}")		
-		//posso substituir @RequestMapping(method = RequestMethod.POST)  por @PostMapping
-		//posso substituir @RequestMapping(method = RequestMethod.PUT) por @PutMapping		
-		
+
 		@GetMapping
 		public List<PersonVO> mostraTodos() {
 			return services.findAll();

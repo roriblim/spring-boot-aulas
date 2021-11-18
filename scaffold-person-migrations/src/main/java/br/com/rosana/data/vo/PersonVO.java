@@ -6,16 +6,31 @@ import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+//a seguinte annotation permite fazer a customização da ordem de como o JSon vai chegar no usuário final
+@JsonPropertyOrder({"id", "address", "lastName","gender", "firstName"})
 public class PersonVO implements Serializable{
 
-	//essa vai ser uma classe para transferência de dados
-	
 	private static final long serialVersionUID = 1L;
 
+	//tudo que for determinado aqui vai ser da forma que chega no usuário final!!!
 	private long id;
+	
+	//essa anotation permite mudar como o json é serializado e aparece para o usuário
+	@JsonProperty("Primeiro_Nome")
 	private String firstName;
+	
+	@JsonProperty("Ultimo_Nome")
 	private String lastName;
+	
+	@JsonProperty("Endereço")
 	private String address;
+	
+	//essa anotation permite ocultar a variável no json
+	@JsonIgnore
 	private String gender;
 	
 	public PersonVO() {
