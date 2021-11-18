@@ -24,22 +24,24 @@ public class PersonController {
 		private PersonServices services;
 		
 
-		@GetMapping
+		@GetMapping(produces = {"application/json", "application/xml"})
 		public List<PersonVO> mostraTodos() {
 			return services.findAll();
 		}
 		
-		@GetMapping("/{id}")
+		@GetMapping(value = "/{id}", produces = {"application/json", "application/xml"})
 		public PersonVO mostraUm(@PathVariable("id")Long id) {
 			return services.findById(id);
 		}
 		
-		@PostMapping
+		@PostMapping(produces = {"application/json", "application/xml"}, 
+				consumes = {"application/json", "application/xml"})
 		public PersonVO poeNoBanco(@RequestBody PersonVO person) {
 			return services.create(person);
 		}
 		
-		@PutMapping	
+		@PutMapping(produces = {"application/json", "application/xml"}, 
+				consumes = {"application/json", "application/xml"})	
 		public PersonVO atualizaNoBanco(@RequestBody PersonVO person) {
 			return services.update(person);
 		}

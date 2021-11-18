@@ -20,13 +20,13 @@ public class PersonVO implements Serializable{
 	private long id;
 	
 	//essa anotation permite mudar como o json é serializado e aparece para o usuário
-	@JsonProperty("Primeiro_Nome")
+	@JsonProperty("primeiro_Nome")
 	private String firstName;
 	
-	@JsonProperty("Ultimo_Nome")
+	@JsonProperty("ultimo_Nome")
 	private String lastName;
 	
-	@JsonProperty("Endereço")
+	@JsonProperty("endereço")
 	private String address;
 	
 	//essa anotation permite ocultar a variável no json
