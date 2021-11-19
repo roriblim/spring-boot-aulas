@@ -19,38 +19,44 @@
   </properties>
   
   <dependencies>
+  		<!-- FOR SPRING BOOT SUPPORT -->
   	<dependency>
   		<groupId>org.springframework.boot</groupId>
   		<artifactId>spring-boot-starter-data-rest</artifactId>
   	</dependency>
-  	
-  	<dependency>
-  		<groupId>org.springframework.boot</groupId>
-  		<artifactId>spring-boot-starter-data-jpa</artifactId>
-  	</dependency>
-  	
+  		<!-- FOR UNIT TESTS SUPPORT -->
   	<dependency>
   		<groupId>org.springframework.boot</groupId>
   		<artifactId>spring-boot-starter-test</artifactId>
   		<scope>test</scope>
   	</dependency>
-  	
+  	  		<!-- FOR JPA SUPPORT -->
+  	<dependency>
+  		<groupId>org.springframework.boot</groupId>
+  		<artifactId>spring-boot-starter-data-jpa</artifactId>
+  	</dependency>
+  		<!-- FOR HATEOAS SUPPORT -->
+  	<dependency>
+  		<groupId>org.springframework.hateoas</groupId>
+  		<artifactId>spring-hateoas</artifactId>
+  	</dependency>
+  		<!-- FOR MYSQL SUPPORT -->
   	<dependency>
   		<groupId>mysql</groupId>
   		<artifactId>mysql-connector-java</artifactId>
   	</dependency>
-  	
+  		<!-- FOR MODEL MAPPER SUPPORT -->
   	<dependency>
     	<groupId>com.github.dozermapper</groupId>
     	<artifactId>dozer-core</artifactId>
    		<version>6.4.0</version>
 	</dependency>
-  	
+  		<!-- FOR UNIT TESTS SUPPORT -->
   	<dependency>
   		<groupId>junit</groupId>
   		<artifactId>junit</artifactId>
   	</dependency>
-  	
+  		<!-- FOR MIGRATIONS SUPPORT -->
   	<dependency>
   		<groupId>org.flywaydb</groupId>
   		<artifactId>flyway-core</artifactId>

@@ -6,23 +6,37 @@ import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.github.dozermapper.core.Mapping;
 
 //a seguinte annotation permite fazer a customização da ordem de como o JSon vai chegar no usuário final
 @JsonPropertyOrder({"id", "address", "lastName","gender", "firstName"})
-public class PersonVO implements Serializable{
+public class PersonVO extends RepresentationModel<PersonVO> implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
 	//tudo que for determinado aqui vai ser da forma que chega no usuário final!!!
-	private long id;
+	@Mapping("id")
+	@JsonProperty("id")
+	private Long key;
 	
 	//essa anotation permite mudar como o json é serializado e aparece para o usuário
 	@JsonProperty("primeiro_Nome")
 	private String firstName;
 	
+	public Long getKey() {
+		return key;
+	}
+
+	public void setKey(Long key) {
+		this.key = key;
+	}
+
+
 	@JsonProperty("ultimo_Nome")
 	private String lastName;
 	
@@ -34,15 +48,6 @@ public class PersonVO implements Serializable{
 	private String gender;
 	
 	public PersonVO() {
-	}
-
-	public long getId() {
-		return id;
-	}
-
-
-	public void setId(long id) {
-		this.id = id;
 	}
 
 
@@ -81,29 +86,34 @@ public class PersonVO implements Serializable{
 	}
 
 
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-
-
 	@Override
 	public int hashCode() {
-		return Objects.hash(address, firstName, gender, id, lastName);
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(address, firstName, gender, key, lastName);
+		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		PersonVO other = (PersonVO) obj;
 		return Objects.equals(address, other.address) && Objects.equals(firstName, other.firstName)
-				&& Objects.equals(gender, other.gender) && id == other.id && Objects.equals(lastName, other.lastName);
+				&& Objects.equals(gender, other.gender) && Objects.equals(key, other.key)
+				&& Objects.equals(lastName, other.lastName);
 	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+
+
 	
 	
 }

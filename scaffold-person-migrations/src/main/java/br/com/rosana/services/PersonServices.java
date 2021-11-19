@@ -29,7 +29,7 @@ import br.com.rosana.repository.PersonRepository;
 		
 		public PersonVO update(PersonVO person) {
 			
-			var entity = repository.findById(person.getId())
+			var entity = repository.findById(person.getKey())
 			         .orElseThrow(()-> new ResourceNotFoundException("No records found for this ID"));	
 			entity.setFirstName(person.getFirstName());
 			entity.setLastName(person.getLastName());

@@ -1,5 +1,8 @@
 package br.com.rosana;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,24 +29,33 @@ public class PersonController {
 
 		@GetMapping(produces = {"application/json", "application/xml", "application/x-yaml"})
 		public List<PersonVO> mostraTodos() {
-			return services.findAll();
+			List<PersonVO> people = services.findAll();
+			people.stream().forEach(p->p.add(linkTo(methodOn(PersonController.class).mostraUm(p.getKey())).withSelfRel()));
+			return people;
 		}
 		
 		@GetMapping(value = "/{id}", produces = {"application/json", "application/xml", "application/x-yaml"})
 		public PersonVO mostraUm(@PathVariable("id")Long id) {
-			return services.findById(id);
+			PersonVO personVO = services.findById(id);
+			personVO.add(linkTo(methodOn(PersonController.class).mostraUm(id)).withSelfRel());
+			return personVO;
 		}
 		
 		@PostMapping(produces = {"application/json", "application/xml", "application/x-yaml"}, 
 				consumes = {"application/json", "application/xml", "application/x-yaml"})
 		public PersonVO poeNoBanco(@RequestBody PersonVO person) {
-			return services.create(person);
+			PersonVO personVO = services.create(person);
+			personVO.add(linkTo(methodOn(PersonController.class).mostraUm(personVO.getKey())).withSelfRel());
+			return personVO;
 		}
 		
 		@PutMapping(produces = {"application/json", "application/xml", "application/x-yaml"}, 
 				consumes = {"application/json", "application/xml", "application/x-yaml"})	
 		public PersonVO atualizaNoBanco(@RequestBody PersonVO person) {
-			return services.update(person);
+			PersonVO personVO = services.update(person);
+			personVO.add(linkTo(methodOn(PersonController.class).mostraUm(personVO.getKey())).withSelfRel());
+			//obs. aqui em cima, poderia colocar tb person.getkey() no findbyid, pois o parametro de entrada person é do tipo personvo e já tem o id nesse caso.
+			return personVO;
 		}
 		
 		@DeleteMapping("/{id}")
