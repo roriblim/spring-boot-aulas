@@ -56,9 +56,16 @@
   		<artifactId>flyway-core</artifactId>
   	</dependency>
   	  	
+  	  	<!-- FOR XML SUPPORT -->
   	<dependency>
   		<groupId>com.fasterxml.jackson.dataformat</groupId>
   		<artifactId>jackson-dataformat-xml</artifactId>
+  	</dependency>
+  	
+  	<!-- FOR YML SUPPORT -->
+  	<dependency>
+  		<groupId>com.fasterxml.jackson.dataformat</groupId>
+  		<artifactId>jackson-dataformat-yaml</artifactId>
   	</dependency>
   	
   	

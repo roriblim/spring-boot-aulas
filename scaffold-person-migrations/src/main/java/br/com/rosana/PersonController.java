@@ -24,24 +24,24 @@ public class PersonController {
 		private PersonServices services;
 		
 
-		@GetMapping(produces = {"application/json", "application/xml"})
+		@GetMapping(produces = {"application/json", "application/xml", "application/x-yaml"})
 		public List<PersonVO> mostraTodos() {
 			return services.findAll();
 		}
 		
-		@GetMapping(value = "/{id}", produces = {"application/json", "application/xml"})
+		@GetMapping(value = "/{id}", produces = {"application/json", "application/xml", "application/x-yaml"})
 		public PersonVO mostraUm(@PathVariable("id")Long id) {
 			return services.findById(id);
 		}
 		
-		@PostMapping(produces = {"application/json", "application/xml"}, 
-				consumes = {"application/json", "application/xml"})
+		@PostMapping(produces = {"application/json", "application/xml", "application/x-yaml"}, 
+				consumes = {"application/json", "application/xml", "application/x-yaml"})
 		public PersonVO poeNoBanco(@RequestBody PersonVO person) {
 			return services.create(person);
 		}
 		
-		@PutMapping(produces = {"application/json", "application/xml"}, 
-				consumes = {"application/json", "application/xml"})	
+		@PutMapping(produces = {"application/json", "application/xml", "application/x-yaml"}, 
+				consumes = {"application/json", "application/xml", "application/x-yaml"})	
 		public PersonVO atualizaNoBanco(@RequestBody PersonVO person) {
 			return services.update(person);
 		}
