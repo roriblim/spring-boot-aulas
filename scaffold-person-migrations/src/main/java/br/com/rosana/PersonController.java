@@ -1,7 +1,7 @@
 package br.com.rosana;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.util.List;
 
@@ -18,7 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.rosana.data.vo.PersonVO;
 import br.com.rosana.services.PersonServices;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
+//documentacao: localhost:8080/swagger-ui.html#/person-controller
+
+//@Api(value = "PersonEndpoint", description = "REST API for Person", tags = { "PersonEndpoint" })
+@Tag(name = "Person Endpoint",description = "Endpoint de pessoas")
 @RestController
 @RequestMapping("/api/person/v1")
 public class PersonController {
@@ -26,7 +32,7 @@ public class PersonController {
 		@Autowired
 		private PersonServices services;
 		
-
+		@Operation (summary = "find all people")
 		@GetMapping(produces = {"application/json", "application/xml", "application/x-yaml"})
 		public List<PersonVO> mostraTodos() {
 			List<PersonVO> people = services.findAll();

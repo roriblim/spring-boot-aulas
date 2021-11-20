@@ -74,6 +74,29 @@
   		<artifactId>jackson-dataformat-yaml</artifactId>
   	</dependency>
   	
+  	  <!-- FOR SWAGGER ENDPOINTS SUPPORT - fornece a documentação swagger-->
+  	  <!-- antes era assim, mas o swagger virou uma especificação (OpenAPI) -->
+	<!--<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.9.2</version>
+		</dependency>   -->	
+		
+	 	<!-- FOR OPEN API SUPPORT - formata a documentação -->
+	 	<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>1.4.6</version>
+		</dependency>
+	 
+	  <!-- FOR SWAGGER UI SUPPORT - formata a documentação swagger-->
+	    <!-- antes era assim, mas o swagger virou uma especificação (OpenAPI) -->
+	  <!--<dependency>
+	    	<groupId>com.github.dozermapper</groupId>
+	    	<artifactId>dozer-core</artifactId>
+	   		<version>6.4.0</version>
+		</dependency>  -->	
+  	
   	
   </dependencies>
   
