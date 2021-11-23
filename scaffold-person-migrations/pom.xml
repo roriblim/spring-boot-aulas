@@ -74,6 +74,19 @@
   		<artifactId>jackson-dataformat-yaml</artifactId>
   	</dependency>
   	
+  	  	<!-- FOR SECURITY SUPPORT -->
+  	<dependency>
+  		<groupId>org.springframework.boot</groupId>
+  		<artifactId>spring-boot-starter-security</artifactId>
+  	</dependency>
+  	
+  	  	<!-- FOR TOKENS SUPPORT -->
+  	<dependency>
+  		<groupId>io.jsonwebtoken</groupId>
+  		<artifactId>jjwt</artifactId>
+  		<version>0.9.1</version>
+  	</dependency>
+  	
   	  <!-- FOR SWAGGER ENDPOINTS SUPPORT - fornece a documentação swagger-->
   	  <!-- antes era assim, mas o swagger virou uma especificação (OpenAPI) -->
 	<!--<dependency>

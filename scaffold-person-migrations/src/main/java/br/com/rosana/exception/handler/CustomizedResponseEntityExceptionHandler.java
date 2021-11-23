@@ -11,6 +11,8 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import br.com.rosana.exception.ExceptionResponse;
+import br.com.rosana.exception.InvalidJwtAuthenticationException;
+import br.com.rosana.exception.ResourceNotFoundException;
 
 
 //ver https://mkyong.com/spring-boot/spring-rest-error-handling-example/
@@ -36,6 +38,32 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 		return new ResponseEntity<>(resposta, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
+	
+	@ExceptionHandler(ResourceNotFoundException.class)
+	public final ResponseEntity<ExceptionResponse> handleBadRequestExceptions(Exception ex, WebRequest request) {
+		//protected ResponseEntity<Object> handleConflict ( RuntimeException ex, WebRequest request) {...
+		//ExceptionResponse foi a classe criada por nós, que conterá data, mensagem e detalhes
+		
+		ExceptionResponse resposta = 
+				new ExceptionResponse(
+						new Date(),
+						ex.getMessage(),
+						request.getDescription(false));
+		return new ResponseEntity<>(resposta, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(InvalidJwtAuthenticationException.class)
+	public final ResponseEntity<ExceptionResponse> invalidJwtAuthenticationException(Exception ex, WebRequest request) {
+		//protected ResponseEntity<Object> handleConflict ( RuntimeException ex, WebRequest request) {...
+		//ExceptionResponse foi a classe criada por nós, que conterá data, mensagem e detalhes
+		
+		ExceptionResponse resposta = 
+				new ExceptionResponse(
+						new Date(),
+						ex.getMessage(),
+						request.getDescription(false));
+		return new ResponseEntity<>(resposta, HttpStatus.BAD_REQUEST);
+	}
 	
 
 }
