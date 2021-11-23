@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.rosana.data.vo.BookVO;
 import br.com.rosana.services.BookServices;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
+@Tag(name = "Book Endpoint",description = "Endpoint de livros")
 @RestController
 @RequestMapping("/api/book/v1")
 public class BookController {
@@ -26,7 +29,7 @@ public class BookController {
 		@Autowired
 		private BookServices services;
 		
-
+		@Operation (summary = "find all books")
 		@GetMapping(produces = {"application/json", "application/xml", "application/x-yaml"})
 		public List<BookVO> mostraTodos() {
 			List<BookVO> books = services.findAll();
@@ -34,6 +37,7 @@ public class BookController {
 			return books;
 		}
 		
+		@Operation (summary = "find one specific book")
 		@GetMapping(value = "/{id}", produces = {"application/json", "application/xml", "application/x-yaml"})
 		public BookVO mostraUm(@PathVariable("id")Long id) {
 			BookVO bookVO = services.findById(id);
@@ -41,6 +45,7 @@ public class BookController {
 			return bookVO;
 		}
 		
+		@Operation (summary = "post one specific book")
 		@PostMapping(produces = {"application/json", "application/xml", "application/x-yaml"}, 
 				consumes = {"application/json", "application/xml", "application/x-yaml"})
 		public BookVO poeNoBanco(@RequestBody BookVO bookVO) {
@@ -49,6 +54,7 @@ public class BookController {
 			return bookVOcriado;
 		}
 		
+		@Operation (summary = "update one specific book")
 		@PutMapping(produces = {"application/json", "application/xml", "application/x-yaml"}, 
 				consumes = {"application/json", "application/xml", "application/x-yaml"})	
 		public BookVO atualizaNoBanco(@RequestBody BookVO bookVO) {
@@ -58,6 +64,7 @@ public class BookController {
 			return bookVOatualizado;
 		}
 		
+		@Operation (summary = "delete one specific book")
 		@DeleteMapping("/{id}")
 		public ResponseEntity<?> deletaUm(@PathVariable("id") Long id) {
 			services.delete(id);

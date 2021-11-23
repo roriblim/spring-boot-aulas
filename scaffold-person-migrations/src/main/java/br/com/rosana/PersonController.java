@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +24,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 //documentacao: localhost:8080/swagger-ui.html#/person-controller
 
-//@Api(value = "PersonEndpoint", description = "REST API for Person", tags = { "PersonEndpoint" })
+//@CrossOrigin  //descomente essa linha para usar a annotation
 @Tag(name = "Person Endpoint",description = "Endpoint de pessoas")
 @RestController
 @RequestMapping("/api/person/v1")
@@ -40,6 +41,7 @@ public class PersonController {
 			return people;
 		}
 		
+		@Operation (summary = "find one specific person")
 		@GetMapping(value = "/{id}", produces = {"application/json", "application/xml", "application/x-yaml"})
 		public PersonVO mostraUm(@PathVariable("id")Long id) {
 			PersonVO personVO = services.findById(id);
@@ -47,6 +49,7 @@ public class PersonController {
 			return personVO;
 		}
 		
+		@Operation (summary = "post one specific person")
 		@PostMapping(produces = {"application/json", "application/xml", "application/x-yaml"}, 
 				consumes = {"application/json", "application/xml", "application/x-yaml"})
 		public PersonVO poeNoBanco(@RequestBody PersonVO person) {
@@ -55,6 +58,7 @@ public class PersonController {
 			return personVO;
 		}
 		
+		@Operation (summary = "update one specific person")
 		@PutMapping(produces = {"application/json", "application/xml", "application/x-yaml"}, 
 				consumes = {"application/json", "application/xml", "application/x-yaml"})	
 		public PersonVO atualizaNoBanco(@RequestBody PersonVO person) {
@@ -64,6 +68,7 @@ public class PersonController {
 			return personVO;
 		}
 		
+		@Operation (summary = "delete one specific person")
 		@DeleteMapping("/{id}")
 		public ResponseEntity<?> deletaUm(@PathVariable("id") Long id) {
 			services.delete(id);

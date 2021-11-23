@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import br.com.rosana.serialization.converter.YamlJackson2HttpMessageConverter;
@@ -17,6 +18,15 @@ public class WebConfig implements WebMvcConfigurer{
 	
 	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
 		converters.add(new YamlJackson2HttpMessageConverter());
+	}
+	
+	public void addCorsMapping(CorsRegistry registry) {
+		registry.addMapping("/**")
+		// vai disponibilizar todos os recursos a todo mundo. 
+		//por padrão, Funciona muito bem com os métodos HTTP principais.não funciona para os métodos OPTIONS E PATCH
+		//mas posso adicionar os métodos que eu quiser:
+		.allowedMethods("GET","POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD", "TRACE", "CONNECT");
+	
 	}
 	
 	@Override
