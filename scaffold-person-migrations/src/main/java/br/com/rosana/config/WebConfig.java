@@ -20,6 +20,7 @@ public class WebConfig implements WebMvcConfigurer{
 		converters.add(new YamlJackson2HttpMessageConverter());
 	}
 	
+	//podemos adicionar o cors por aqui ou direto na classe controller ou em seus métodos que a gente quiser
 	public void addCorsMapping(CorsRegistry registry) {
 		registry.addMapping("/**")
 		// vai disponibilizar todos os recursos a todo mundo. 

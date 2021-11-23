@@ -25,6 +25,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 //documentacao: localhost:8080/swagger-ui.html#/person-controller
 
 //@CrossOrigin  //descomente essa linha para usar a annotation
+//a gente pode tanto fazer o cors por aqui, utilizando @CrossOrigin na classe ou nos métodos que a gente quiser,
+//ou adicionar globalmente, fazendo a configuração no WebConfig
 @Tag(name = "Person Endpoint",description = "Endpoint de pessoas")
 @RestController
 @RequestMapping("/api/person/v1")
@@ -41,6 +43,7 @@ public class PersonController {
 			return people;
 		}
 		
+		@CrossOrigin
 		@Operation (summary = "find one specific person")
 		@GetMapping(value = "/{id}", produces = {"application/json", "application/xml", "application/x-yaml"})
 		public PersonVO mostraUm(@PathVariable("id")Long id) {
