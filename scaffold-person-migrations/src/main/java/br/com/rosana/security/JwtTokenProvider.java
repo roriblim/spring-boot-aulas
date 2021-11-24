@@ -15,6 +15,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
+
+import br.com.rosana.exception.InvalidJwtAuthenticationException;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -34,10 +39,14 @@ public class JwtTokenProvider {
 	
 	@PostConstruct
 	public void init() {
+
+		//codifica a secretKey
 		secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
 	}
 	
 	public String createToken(String username, List<String> roles) {
+
+		//cria um token a partir de username, roles, secretKey e data atual
 		Claims claims = Jwts.claims().setSubject(username);
 		claims.put("roles", roles);
 		
@@ -66,7 +75,27 @@ public class JwtTokenProvider {
 	
 	public String resolveToken(HttpServletRequest req) {
 		String bearerToken = req.getHeader("Authorization");
-		//parei nos 13min de Implementando o JwtTokenProvider
+
+		if (bearerToken!=null && bearerToken.startsWith("Bearer ")) {
+			return bearerToken.substring(7, bearerToken.length());
+			//vai pegar o token sem pegar a parte inicial "Bearer "
+			//o token geralmente vem concatenado assim: Bearer sdkjhdkjsahdkja
+		}
+		return null;
+	}
+	
+	public boolean validateToken(String token) {
+		//vai validar o token (retorna true se estiver válido)
+		try {
+			Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+			if (claims.getBody().getExpiration().before(new Date())) {
+				return false;
+			}
+			return true;
+		} catch(Exception e) {
+			throw new InvalidJwtAuthenticationException("Expired or invalid token");
+		}
+
 	}
 	
 }

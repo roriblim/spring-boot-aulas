@@ -18,5 +18,13 @@ import org.springframework.context.annotation.ComponentScan;
 public class Startup {
 	public static void main(String[] args) {
 		SpringApplication.run(Startup.class,args);
+		
+		//quando estivermos gravando um novo usuário, vamos ter de criar um endpoint que fazer isso,
+		//pega a senha e encripta ela:
+		//16 é o que o spring security usa como padrão
+		/*BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(16);
+		String result = bCryptPasswordEncoder.encode("admin123");
+		System.out.println("My hash " + result);*/
+
 	}
 }
