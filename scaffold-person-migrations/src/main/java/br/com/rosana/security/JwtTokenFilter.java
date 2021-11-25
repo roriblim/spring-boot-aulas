@@ -16,7 +16,8 @@ import org.springframework.web.filter.GenericFilterBean;
 public class JwtTokenFilter extends GenericFilterBean{
 
 	@Autowired
-	private JwtTokenProvider tokenProvider;
+	private JwtTokenProvider tokenProvider; //note que o filter tem um atributo do tipo da nossa classe do token
+	//e é autowired, ou seja, nao preciso instanciar um objeto de JwtTokenProvider
 	
 	public JwtTokenFilter(JwtTokenProvider tokenProvider) {
 		this.tokenProvider = tokenProvider;

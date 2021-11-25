@@ -40,6 +40,7 @@ public class BookController {
 		@Operation (summary = "find one specific book")
 		@GetMapping(value = "/{id}", produces = {"application/json", "application/xml", "application/x-yaml"})
 		public BookVO mostraUm(@PathVariable("id")Long id) {
+			//A ENTRADA AQUI SERÁ UMA VARIÁVEL DO PACOTE URL (id)
 			BookVO bookVO = services.findById(id);
 			bookVO.add(linkTo(methodOn(BookController.class).mostraUm(id)).withSelfRel());
 			return bookVO;
@@ -49,6 +50,7 @@ public class BookController {
 		@PostMapping(produces = {"application/json", "application/xml", "application/x-yaml"}, 
 				consumes = {"application/json", "application/xml", "application/x-yaml"})
 		public BookVO poeNoBanco(@RequestBody BookVO bookVO) {
+			//A ENTRADA AQUI SERÁ O CORPO (BODY) DA REQUEST
 			BookVO bookVOcriado = services.create(bookVO);
 			bookVOcriado.add(linkTo(methodOn(BookController.class).mostraUm(bookVOcriado.getKey())).withSelfRel());
 			return bookVOcriado;

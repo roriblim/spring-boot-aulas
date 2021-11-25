@@ -8,8 +8,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 public class JwtConfigurer extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity>{
 	@Autowired
-	private JwtTokenProvider tokenProvider;
-
+	private JwtTokenProvider tokenProvider; //note que o configurer tem um atributo do tipo da nossa classe do token
+											//e é autowired, ou seja, nao preciso instanciar um objeto de JwtTokenProvider
+	
 	public JwtConfigurer(JwtTokenProvider tokenProvider) {
 		this.tokenProvider = tokenProvider;
 	}

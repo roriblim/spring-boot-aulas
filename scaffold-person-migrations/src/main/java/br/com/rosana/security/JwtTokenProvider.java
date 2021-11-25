@@ -15,19 +15,18 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
-
 import br.com.rosana.exception.InvalidJwtAuthenticationException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
-
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 @Service
 public class JwtTokenProvider {
 
-	@Value("${security.jwt.token.secret-key:secret}")
+	//CLASSE DO TOKEN, PARA VALIDAÇÃO, PEGAR O USERNAME DO TOKEN, CRIAR TOKEN, ETC
+	
+	@Value("${security.jwt.token.secret-key:secret}") //valor padrão
 	private String secretKey = "secret";
 	
 	@Value("${security.jwt.token.expire-length:3600000}") //se eu nao definir nenhum valor, a variável vai assumir o valor que está depois dos dois pontos
@@ -70,7 +69,7 @@ public class JwtTokenProvider {
 		return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
 		//para entender melhor o que é feito aqui, pode-se verificar no site da JWT como é o modelo do token:
 		//basicamente, aqui ele vai setar a secretKey no JWTS parser, pegar o token e decodificar ele.
-		//então, vai pegar o body e pegar o subject
+		//então, vai pegar o body e pegar o subject. OU seja, vai pegar o username QUE ESTÁ no token
 	}
 	
 	public String resolveToken(HttpServletRequest req) {
