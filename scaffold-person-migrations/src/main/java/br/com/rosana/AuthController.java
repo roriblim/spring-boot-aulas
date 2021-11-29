@@ -24,6 +24,7 @@ import br.com.rosana.security.AccountCredentialsVO;
 import br.com.rosana.security.JwtTokenProvider;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+@Tag(name = "Authentication Endpoint")
 @RestController
 @RequestMapping("/auth")
 public class AuthController {

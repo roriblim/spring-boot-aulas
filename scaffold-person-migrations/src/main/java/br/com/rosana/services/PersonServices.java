@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.rosana.converter.DozerConverter;
 import br.com.rosana.data.model.Person;
@@ -37,6 +38,26 @@ import br.com.rosana.repository.PersonRepository;
 			entity.setGender(person.getGender());			
 			var vo = DozerConverter.parseObject(repository.save(entity), PersonVO.class);
 			return vo;
+		}
+		
+		//as manipulações de dados padrão do Spring Data, o Spring Data vai cuidar da transação
+		//para dizer para ele que uma operação deve ser transacionada, colocamos a annotation: @Transactional
+		//essa annotation permite um controle de transações robusto com o BD, conforme os princípios ACID (atomicidade, consistência, isolação, durabilidade)
+		@Transactional		
+		public PersonVO disablePerson(Long id) {
+		repository.disablePerson(id);
+		//a linha de cima é suficiente, mas podemos retornar o registro que foi alterado ao usuário:
+		var entity = repository.findById(id)
+				 .orElseThrow(()-> new ResourceNotFoundException("No records found for this ID"));
+		//OUTRO JEITO DE FAZER SERIA:
+		/*
+		 * 	entity.setEnabled(false);			
+			var vo = DozerConverter.parseObject(repository.save(entity), PersonVO.class);
+			return vo;
+		 */
+		
+		return DozerConverter.parseObject(entity, PersonVO.class);
+			
 		}
 		
 		public void delete (Long id){

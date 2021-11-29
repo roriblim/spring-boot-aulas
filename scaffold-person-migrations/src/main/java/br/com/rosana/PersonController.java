@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -48,6 +49,14 @@ public class PersonController {
 		@GetMapping(value = "/{id}", produces = {"application/json", "application/xml", "application/x-yaml"})
 		public PersonVO mostraUm(@PathVariable("id")Long id) {
 			PersonVO personVO = services.findById(id);
+			personVO.add(linkTo(methodOn(PersonController.class).mostraUm(id)).withSelfRel());
+			return personVO;
+		}
+		
+		@Operation (summary = "Disable one specific person")
+		@PatchMapping(value = "/{id}", produces = {"application/json", "application/xml", "application/x-yaml"})
+		public PersonVO desabilitaUm(@PathVariable("id")Long id) {
+			PersonVO personVO = services.disablePerson(id);
 			personVO.add(linkTo(methodOn(PersonController.class).mostraUm(id)).withSelfRel());
 			return personVO;
 		}
