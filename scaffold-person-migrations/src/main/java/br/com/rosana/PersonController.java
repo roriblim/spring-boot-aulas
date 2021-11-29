@@ -8,6 +8,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -43,9 +45,11 @@ public class PersonController {
 		@Operation (summary = "find all people")
 		@GetMapping(produces = {"application/json", "application/xml", "application/x-yaml"})
 		public List<PersonVO> mostraTodos(@RequestParam(value = "page", defaultValue="0") int page,
-										  @RequestParam(value = "limit", defaultValue="20") int limit) {
+										  @RequestParam(value = "limit", defaultValue="20") int limit,
+										  @RequestParam(value = "direction", defaultValue="asc") String direction) {
 			
-			Pageable pageable = PageRequest.of(page, limit);
+			var sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC :Direction.ASC;
+			Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection,"firstName"));
 			
 			List<PersonVO> people = services.findAll(pageable);
 			people.stream().forEach(p->p.add(linkTo(methodOn(PersonController.class).mostraUm(p.getKey())).withSelfRel()));
