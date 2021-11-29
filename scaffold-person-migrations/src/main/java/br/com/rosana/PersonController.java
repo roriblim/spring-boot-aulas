@@ -6,6 +6,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.rosana.data.vo.PersonVO;
@@ -36,10 +39,15 @@ public class PersonController {
 		@Autowired
 		private PersonServices services;
 		
+		//com o uso da paginação, posso fazer o request por exemplo com a seguinte url: {{host}}/api/person/v1?page=10&limit=5
 		@Operation (summary = "find all people")
 		@GetMapping(produces = {"application/json", "application/xml", "application/x-yaml"})
-		public List<PersonVO> mostraTodos() {
-			List<PersonVO> people = services.findAll();
+		public List<PersonVO> mostraTodos(@RequestParam(value = "page", defaultValue="0") int page,
+										  @RequestParam(value = "limit", defaultValue="20") int limit) {
+			
+			Pageable pageable = PageRequest.of(page, limit);
+			
+			List<PersonVO> people = services.findAll(pageable);
 			people.stream().forEach(p->p.add(linkTo(methodOn(PersonController.class).mostraUm(p.getKey())).withSelfRel()));
 			return people;
 		}

@@ -3,6 +3,7 @@ package br.com.rosana.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -74,8 +75,9 @@ import br.com.rosana.repository.PersonRepository;
 			
 		}
 		
-		public List<PersonVO> findAll() {
-			return DozerConverter.parseListObjects(repository.findAll(), PersonVO.class);
+		public List<PersonVO> findAll(Pageable pageable) {
+			var entities = repository.findAll(pageable).getContent();
+			return DozerConverter.parseListObjects(entities, PersonVO.class);
 		}
 		
 
