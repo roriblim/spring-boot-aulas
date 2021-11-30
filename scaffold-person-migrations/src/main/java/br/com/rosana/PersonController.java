@@ -3,13 +3,18 @@ package br.com.rosana;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.PagedModel;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,19 +46,30 @@ public class PersonController {
 		@Autowired
 		private PersonServices services;
 		
+		 @Autowired
+		private PagedResourcesAssembler<PersonVO> pagedResourcesAssembler;
+		
+		
 		//com o uso da paginação, posso fazer o request por exemplo com a seguinte url: {{host}}/api/person/v1?page=10&limit=5
 		@Operation (summary = "find all people")
 		@GetMapping(produces = {"application/json", "application/xml", "application/x-yaml"})
-		public List<PersonVO> mostraTodos(@RequestParam(value = "page", defaultValue="0") int page,
+		public ResponseEntity<PagedModel<EntityModel<PersonVO>>> mostraTodos(@RequestParam(value = "page", defaultValue="0") int page,
 										  @RequestParam(value = "limit", defaultValue="20") int limit,
-										  @RequestParam(value = "direction", defaultValue="asc") String direction) {
+										  @RequestParam(value = "direction", defaultValue="asc") String direction
+										) {
 			
 			var sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC :Direction.ASC;
 			Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection,"firstName"));
 			
-			List<PersonVO> people = services.findAll(pageable);
+			Page<PersonVO> people = services.findAll(pageable);
+			
 			people.stream().forEach(p->p.add(linkTo(methodOn(PersonController.class).mostraUm(p.getKey())).withSelfRel()));
-			return people;
+			
+			PagedModel<EntityModel<PersonVO>> peoplePagedModel = pagedResourcesAssembler.toModel(people);
+					
+			 return ResponseEntity.ok(peoplePagedModel);
+			 
+			
 		}
 		
 		@CrossOrigin

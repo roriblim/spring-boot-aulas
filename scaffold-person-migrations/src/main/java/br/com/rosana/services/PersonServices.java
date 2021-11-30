@@ -3,6 +3,7 @@ package br.com.rosana.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -75,9 +76,12 @@ import br.com.rosana.repository.PersonRepository;
 			
 		}
 		
-		public List<PersonVO> findAll(Pageable pageable) {
-			var entities = repository.findAll(pageable).getContent();
-			return DozerConverter.parseListObjects(entities, PersonVO.class);
+		public Page<PersonVO> findAll(Pageable pageable) {
+			var entities = repository.findAll(pageable); //vai ser uma page assim
+			return entities.map(this::convertToPersonVO); //converte uma page de Person para uma page de PersonVO?
+		}
+		private PersonVO convertToPersonVO(Person entity) {
+			return DozerConverter.parseObject(entity, PersonVO.class);
 		}
 		
 
